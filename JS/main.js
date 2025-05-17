@@ -10,8 +10,36 @@
   document.addEventListener('scroll', toggleScrolled);
   window.addEventListener('load', toggleScrolled);
 
-  
+  /* Mobile nav toggle*/
+  const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
 
+  function mobileNavToggle() {
+    document.querySelector('body').classList.toggle('mobile-nav-active');
+    mobileNavToggleBtn.classList.toggle('bi-list');
+    mobileNavToggleBtn.classList.toggle('bi-x');
+  }
+  mobileNavToggleBtn.addEventListener('click', mobileNavToggle);
+
+  /*Hide mobile nav on same-page/hash links*/
+  document.querySelectorAll('#navmenu a').forEach(navmenu => {
+    navmenu.addEventListener('click', () => {
+      if (document.querySelector('.mobile-nav-active')) {
+        mobileNavToggle();
+      }
+    });
+  });
+
+  /*Toggle mobile nav dropdowns*/
+  document.querySelectorAll('.navmenu .toggle-dropdown').forEach(navmenu => {
+    navmenu.addEventListener('click', function(e) {
+      e.preventDefault();
+      this.parentNode.classList.toggle('active');
+      this.parentNode.nextElementSibling.classList.toggle('dropdown-active');
+      e.stopImmediatePropagation();
+    });
+  });
+
+  /*Preloader*/
   const preloader = document.querySelector('#preloader');
   if (preloader) {
     window.addEventListener('load', () => {
@@ -19,7 +47,7 @@
     });
   }
 
- 
+  /*Scroll top button*/
   let scrollTop = document.querySelector('.scroll-top');
 
   function toggleScrollTop() {
@@ -38,7 +66,7 @@
   window.addEventListener('load', toggleScrollTop);
   document.addEventListener('scroll', toggleScrollTop);
 
-  
+  /*Animation on scroll function and init*/
   function aosInit() {
     AOS.init({
       duration: 600,
@@ -49,15 +77,15 @@
   }
   window.addEventListener('load', aosInit);
 
-  
+  /*Initiate glightbox*/
   const glightbox = GLightbox({
     selector: '.glightbox'
   });
 
-
+  /*Initiate Pure Counter*/
   new PureCounter();
 
-
+  /*Init Swiper sliders (with settings from inside JS)*/
   function initSwiper() {
     document.querySelectorAll(".init-swiper").forEach(function(swiperElement) {
       let config = {
@@ -79,8 +107,8 @@
   
   window.addEventListener('load', initSwiper);
 
-  
-  function initEventsSwiper() {
+  /*Correct scrolling position upon page load for URLs containing hash links*/
+function initEventsSwiper() {
     const eventsSlider = document.querySelector('.events-slider');
     if (eventsSlider) {
       new Swiper(eventsSlider, {
@@ -88,20 +116,17 @@
         speed: 600,
         autoplay: {
           delay: 3000,
-          disableOnInteraction: false,
-          pauseOnMouseEnter: false,
-          stopOnLastSlide: false,
-          reverseDirection: false
+          disableOnInteraction: false
         },
         slidesPerView: 1,
-        spaceBetween: 10,
+        spaceBetween: 30,
         breakpoints: {
           768: {
-            slidesPerView: 2,
-            spaceBetween: 10
+            slidesPerView: 2, 
+            spaceBetween: 20
           },
           1200: {
-            slidesPerView: 3,
+            slidesPerView: 3, 
             spaceBetween: 1
           }
         },
@@ -115,9 +140,7 @@
   window.addEventListener('load', initEventsSwiper);
   
   
-
-  
- // Initialize Swiper for Gallery
+ // Initialize Swiper for Gallery//
 function initGallerySwiper() {
   const gallerySlider = document.querySelector('.gallery-slider');
   if (gallerySlider) {
@@ -164,7 +187,9 @@ window.addEventListener('load', () => {
     autoplayVideos: false
   });
 });
-
+  /**
+   * Navmenu Scrollspy
+   */
   let navmenulinks = document.querySelectorAll('.navmenu a');
 
   function navmenuScrollspy() {
